@@ -16,6 +16,10 @@
 
 同时这个仓库作为一个历史归档存放处，方便日后进行开发总结。
 
+## 玩家群组
+
+玩家QQ群：828975870
+
 ## 联系开发者 Contact Developers
 
 1. 造梦C君 (Programmer)： zmcj20plusplus@gmail.com

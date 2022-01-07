@@ -1,4 +1,4 @@
-using UnityEditor;
+﻿using UnityEditor;
 
 //Tutorial:https://blog.csdn.net/lsjsoft/article/details/106367930
 //Doc:https://docs.unity3d.com/ScriptReference/AssetPostprocessor.html

@@ -1,0 +1,8 @@
+四角色：
+
+Bambo：壮汉
+Bon：警察
+Bind：特工
+Bert：士兵
+Zombie：僵尸
+Devil：僵尸王

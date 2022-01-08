@@ -8,7 +8,7 @@
 
 1. 将所有文件导入Unity项目的Assets文件夹中。
 
-1. 将BoxheadCamera脚本挂载到场景中的摄像机(Camera)上，设置EffectMaterials(设置为导入的材质，一共4个)。
+1. 将OutlineCamera脚本挂载到场景中的摄像机(Camera)上，设置EffectMaterials(设置为导入的材质，一共4个)。
 
 1. 播放游戏，按下数字键1-4查看不同描边效果。
 

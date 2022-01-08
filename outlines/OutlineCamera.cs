@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-public class BoxheadCamera : MonoBehaviour
+public class OutlineCamera : MonoBehaviour
 {
     //这里依赖Outlines提供的Material, 需要手动赋值
     public Material[] EffectMaterials;

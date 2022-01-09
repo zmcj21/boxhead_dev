@@ -123,7 +123,7 @@ public abstract class Actor : BObject
         {
             actorObject = child.gameObject;
             actorAnimator = actorObject.GetComponent<Animator>();
-            Debug.Log("Find Model Success.");
+            Debug.Log("Find Model in Hierarchy.");
             if (!actorAnimator)
             {
                 Debug.LogError("Missing Animator");

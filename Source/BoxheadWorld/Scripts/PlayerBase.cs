@@ -36,9 +36,17 @@ public enum PlayerState
 
 public abstract class PlayerBase : Actor
 {
+    //Animations:
+    public string AnimationDie = "die";
+    public string AnimationBeHit = "hit03";
+
+    public string AnimationIdle = "idle01";
+    public string AnimationWalk = "gun_walk";
+    public string AnimationStrafe = "double_walk";
+
     private LocalPlayerID localPlayerID;
 
-    private Dictionary<PlayerInputKey, KeyCode> inputKeys;
+    private Dictionary<PlayerInputKey, KeyCode> inputKeys = new Dictionary<PlayerInputKey, KeyCode>();
 
     private float horizontalStrafeMoveSpeed;
 
@@ -107,25 +115,6 @@ public abstract class PlayerBase : Actor
         set => isMoving = value;
     }
 
-    private void Awake()
-    {
-        InitDefaultInputKeys();
-    }
-
-    private void InitDefaultInputKeys()
-    {
-        inputKeys = new Dictionary<PlayerInputKey, KeyCode>();
-        InputKeys.Add(PlayerInputKey.MoveUp, KeyCode.W);
-        InputKeys.Add(PlayerInputKey.MoveDown, KeyCode.S);
-        InputKeys.Add(PlayerInputKey.MoveLeft, KeyCode.A);
-        InputKeys.Add(PlayerInputKey.MoveRight, KeyCode.D);
-        InputKeys.Add(PlayerInputKey.Shoot, KeyCode.J);
-        InputKeys.Add(PlayerInputKey.Use, KeyCode.H);
-        InputKeys.Add(PlayerInputKey.NextWeapon, KeyCode.L);
-        InputKeys.Add(PlayerInputKey.PrevWeapon, KeyCode.K);
-        InputKeys.Add(PlayerInputKey.Strafe, KeyCode.Space);
-    }
-
     public void InitPlayerBase(LocalPlayerID localPlayerID, float maxHealth, ActorDirection dir, float moveSpeed, string actorPrefabPath, float horizontalStrafeMoveSpeed, float oppositeStrafeMoveSpeed, float forwardStrafeMoveSpeed, float backwardStrafeMoveSpeed)
     {
         InitActor(ActorType.Player, maxHealth, dir, moveSpeed, actorPrefabPath);
@@ -138,6 +127,24 @@ public abstract class PlayerBase : Actor
         BackwardStrafeMoveSpeed = backwardStrafeMoveSpeed;
 
         PlayerState = PlayerState.Idle;
+    }
+
+    public void SetInputKey(PlayerInputKey inputKey, KeyCode keyCode)
+    {
+        InputKeys[inputKey] = keyCode;
+    }
+
+    public void InitDefaultInputKeys()
+    {
+        SetInputKey(PlayerInputKey.MoveUp, KeyCode.W);
+        SetInputKey(PlayerInputKey.MoveDown, KeyCode.S);
+        SetInputKey(PlayerInputKey.MoveLeft, KeyCode.A);
+        SetInputKey(PlayerInputKey.MoveRight, KeyCode.D);
+        SetInputKey(PlayerInputKey.Shoot, KeyCode.J);
+        SetInputKey(PlayerInputKey.Use, KeyCode.H);
+        SetInputKey(PlayerInputKey.NextWeapon, KeyCode.L);
+        SetInputKey(PlayerInputKey.PrevWeapon, KeyCode.K);
+        SetInputKey(PlayerInputKey.Strafe, KeyCode.Space);
     }
 
     public Vector2 ReceiveMoveInput(out bool isMoving)
@@ -261,30 +268,75 @@ public abstract class PlayerBase : Actor
 
     private void Start()
     {
+        InitDefaultInputKeys();
         StartPlayer();
     }
 
     private void Update()
     {
+        //Input:
         InputVector = ReceiveMoveInput(out this.isMoving);
         bool strafe = ReceiveStrafeInput();
 
+        //Update State:
         ActorDirection targetDir = Actor.GetActorDirection(InputVector);
         UpdatePlayerState(isMoving, strafe);
 
+        //Move & Rotate & Animation:
         RotatePlayerBase(PlayerState, targetDir);
         SetPlayerMoveSpeed(PlayerState, targetDir);
+        UpdatePlayerAnimation(PlayerState);
 
+        //Logic:
         UpdatePlayer(Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
-        Vector3 vel = new Vector3(InputVector.x, 0, InputVector.y).normalized * CurSpeed;
-        this.ActorRigidbody.velocity = vel;
+        UpdatePlayerPhysics();
+    }
+
+    protected override void WhenImDead(ExtraHitInfo hitInfo)
+    {
+        AnimatorPlaySafe(AnimationDie);
+    }
+
+    protected override void WhenImHurt(float damage, ExtraHitInfo hitInfo)
+    {
+        AnimatorPlaySafe(AnimationBeHit);
     }
 
     protected abstract void StartPlayer();
 
     protected abstract void UpdatePlayer(float deltaTime);
+
+    protected virtual void UpdatePlayerAnimation(PlayerState state)
+    {
+        switch (state)
+        {
+            case PlayerState.Idle:
+                AnimatorPlaySafe(AnimationIdle);
+                break;
+            case PlayerState.Walk:
+                AnimatorPlaySafe(AnimationWalk);
+                break;
+            case PlayerState.Strafe:
+                AnimatorPlaySafe(AnimationStrafe);
+                break;
+
+            case PlayerState.Dead:
+            case PlayerState.Stiff:
+                //这里什么也不播放, 死亡跟受伤动画放在虚方法中播放
+                break;
+            default:
+                //这里什么也不播放
+                break;
+        }
+    }
+
+    protected virtual void UpdatePlayerPhysics()
+    {
+        Vector3 vel = new Vector3(InputVector.x, 0, InputVector.y).normalized * CurSpeed;
+        this.ActorRigidbody.velocity = vel;
+    }
 }

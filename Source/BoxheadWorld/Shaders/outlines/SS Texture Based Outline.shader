@@ -16,10 +16,12 @@
 	• LINKEDIN - https://www.linkedin.com/company/65346254
 */
 
-//2022/1/7 
-//By 造梦C君
-//Update! 
-//Set new color value.
+//2022/1/9
+//Modified By 造梦C君
+//Github:https://github.com/zmcj21
+//Update Content:
+//Add new property:_OutlineStep
+//Set new defualt value.
 
 Shader "The Developer/SS Texture Based Outline"
 {
@@ -28,6 +30,7 @@ Shader "The Developer/SS Texture Based Outline"
     	_OutlineColor("Outline Color", Color) = (0,0,0,1)
     	_OutlineThreshold("Outline Threshold", Float) = 3
     	_OutlineWidth("Outline Width", Float) = 2
+        _OutlineStep("Outline Step", Float) = 0.1
     	_EdgeStrengthen ("Edge Strengthen", Float) = 2
         _MainTex ("Texture", 2D) = "white" {}
     }
@@ -58,6 +61,7 @@ Shader "The Developer/SS Texture Based Outline"
             fixed4 _OutlineColor;
             half _OutlineThreshold;
             half _OutlineWidth;
+            half _OutlineStep;
             half _EdgeStrengthen;
             sampler2D _CameraDepthTexture;
             sampler2D _MainTex;
@@ -83,7 +87,7 @@ Shader "The Developer/SS Texture Based Outline"
             fixed i;
             void OutlinePixel(sampler2D tex){
             	outline = 0;
-            	for(i = 1 ; i <= _OutlineWidth ; ++i)
+            	for(i = 1 ; i <= _OutlineWidth ; i += _OutlineStep)
 	            	outline += 
 	                        PSL01UVC(tex, half2(uv.x - i * onePixelW, uv.y), 
                                           half2(uv.x + i * onePixelW, uv.y)) + 

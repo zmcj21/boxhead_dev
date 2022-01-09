@@ -1,18 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
 
-using UnityEngine;
-
-public class BoxheadCamera : MonoBehaviour
+public class OutlineCamera : MonoBehaviour
 {
-    //这里依赖Outlines提供的Material, 需要手动赋值
     public Material[] EffectMaterials;
+
+    public int CurrentMaterialIndex = 0;
 
     public bool UseDebugMode = true;
 
     private Material effectMaterial = null;
-
-    private int materialIndex = 0;
 
     private void SetEffectMaterial(int index)
     {
@@ -21,20 +17,24 @@ public class BoxheadCamera : MonoBehaviour
             return;
         }
         effectMaterial = EffectMaterials[index];
-        materialIndex = index;
+        CurrentMaterialIndex = index;
     }
 
     private void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
         if (effectMaterial != null)
+        {
             Graphics.Blit(src, dest, effectMaterial);
+        }
         else
-            dest = src;
+        {
+            Graphics.Blit(src, dest);
+        }
     }
 
     private void Start()
     {
-        SetEffectMaterial(0);
+        SetEffectMaterial(CurrentMaterialIndex);
     }
 
     private void Update()
@@ -56,6 +56,11 @@ public class BoxheadCamera : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 SetEffectMaterial(3);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                effectMaterial = null;
+                CurrentMaterialIndex = -1;
             }
         }
     }

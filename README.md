@@ -30,6 +30,16 @@
 
 ## 联系开发者 Contact Developers
 
+QQ：
+
+1. 造梦C君 (Programmer):1669247240
+
+1. Chief (Artist):1912188434
+
+1. MK12MOD1 (Artist):1970294827
+
+邮箱(Email)：
+
 1. 造梦C君 (Programmer)： zmcj20plusplus@gmail.com
 
 1. Chief (Artist)： wboyi1912188434@gmail.com

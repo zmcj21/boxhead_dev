@@ -2,7 +2,9 @@
 
 这个仓库存放僵尸危机续作的开发日志与资源
 
-最后更新日期：2022/1/11
+最后更新日期：2022/1/13
+
+![BG](https://github.com/zmcj21/boxhead_dev/blob/main/Docs/1.png)
 
 ## 结构
 

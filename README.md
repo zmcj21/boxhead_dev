@@ -2,19 +2,21 @@
 
 这个仓库存放僵尸危机续作的开发日志与资源
 
-最后更新日期：2022/1/13
+最后更新日期：2022/1/21
 
 ![BG](https://github.com/zmcj21/boxhead_dev/blob/main/Docs/1.png)
 
-## 介绍
+## 介绍 Introduction
 
 我（造梦C君）与团队正在使用unity3D开发僵尸危机续作，开发代号：不灭（Immortal）。
 
-## Boxhead:Immortal官网
+We're working on a spiritual sequel to Boxhead, Boxhead: Immortal.
+
+## Boxhead:Immortal官网 Website
 
 https://zmcj21.github.io/
 
-## 结构
+## 结构 Folders
 
 1. Design内包含设计稿
 
@@ -30,7 +32,7 @@ https://zmcj21.github.io/
 
 同时这个仓库作为一个历史归档存放处，方便日后进行开发总结。
 
-## 玩家群组
+## 玩家群组 Community
 
 玩家QQ群：828975870
 
